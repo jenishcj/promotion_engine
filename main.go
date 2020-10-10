@@ -1,13 +1,12 @@
 package main
 
-import "log"
+import (
+	"promotionengine/model"
+)
 
 func main() {
+	s := model.ServiceImpl{}
+	s.Initialize()
 
-	initialize()
-}
-
-func initialize() {
-
-	log.Println("Promotion Engine Initialized")
+	s.RunScenario("ScenarioA")
 }
