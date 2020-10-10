@@ -1,16 +1,16 @@
 package model
 
-type Rules struct {
-	listRules []func(*Cart)
-}
-
 type Cart struct {
 	ListItems []Item
 	total     float64
 }
 
 type Item struct {
+	ProductInCart Product
+	Quantity      int
+}
+
+type Product struct {
 	ProductName string
 	Price       int
-	Quantity    int
 }

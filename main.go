@@ -1,12 +1,19 @@
 package main
 
 import (
-	"promotionengine/model"
+	"log"
+	"promotionengine/service"
 )
 
 func main() {
-	s := model.ServiceImpl{}
-	s.Initialize()
+	var s = service.ServiceImpl{}
 
-	s.RunScenario("ScenarioA")
+	err := s.Initialize()
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		s.RunScenarioA()
+		s.RunScenarioB()
+		s.RunScenarioC()
+	}
 }

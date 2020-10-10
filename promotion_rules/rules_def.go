@@ -6,9 +6,9 @@ func NofSame(n int, productName string, promotionPrice int, cart model.Cart) {
 
 	for _, item := range cart.ListItems {
 
-		if item.ProductName == productName && item.Quantity >= n {
+		if item.ProductInCart.ProductName == productName && item.Quantity >= n {
 			numberOfPromotions := promotionPrice * (item.Quantity % n)
-			item.Price = numberOfPromotions*promotionPrice + (item.Quantity/n)*item.Price
+			item.ProductInCart.Price = numberOfPromotions*promotionPrice + (item.Quantity/n)*item.ProductInCart.Price
 		}
 	}
 
