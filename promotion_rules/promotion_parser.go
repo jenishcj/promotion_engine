@@ -4,11 +4,6 @@ import (
 	"promotionengine/model"
 )
 
-var rules_map = map[string]interface{}{
-	"nOfSame":          NofSame,
-	"combinationOfTwo": CombinationOfTwo,
-}
-
 func InitializeRules() ([]model.Rule, error) {
 	//nOfSame,3,A,130
 	r1 := model.Rule{
