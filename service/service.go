@@ -17,6 +17,7 @@ type Service interface {
 type ServiceImpl struct {
 	rules    []model.Rule
 	products map[string]model.Product
+	pri      promotion_rules.PromotionRules
 }
 
 func (s *ServiceImpl) RunScenarioA() {
@@ -24,7 +25,7 @@ func (s *ServiceImpl) RunScenarioA() {
 	log.Println("Running Scenario A")
 
 	var cart = model.Cart{}
-	cart.ListItems = map[string]model.Item{
+	cart.Items = map[string]model.Item{
 		"A": {
 			ProductInCart: s.products["A"],
 			Quantity:      1,
@@ -41,9 +42,6 @@ func (s *ServiceImpl) RunScenarioA() {
 
 	total := s.calculateTotal(cart)
 
-	log.Printf("Scenario A total is %d", total)
-
-	total = total - s.applyPromotions(cart)
 	log.Printf("Scenario A total After promtion is %d", total)
 
 }
@@ -53,7 +51,7 @@ func (s *ServiceImpl) RunScenarioB() {
 	log.Println("Running Scenario B")
 
 	var cart = model.Cart{}
-	cart.ListItems = map[string]model.Item{
+	cart.Items = map[string]model.Item{
 		"A": {
 			ProductInCart: s.products["A"],
 			Quantity:      5,
@@ -69,9 +67,7 @@ func (s *ServiceImpl) RunScenarioB() {
 	}
 
 	total := s.calculateTotal(cart)
-	log.Printf("Scenario B total is %d", total)
 
-	total = total - s.applyPromotions(cart)
 	log.Printf("Scenario B total After promtion is %d", total)
 
 }
@@ -81,7 +77,7 @@ func (s *ServiceImpl) RunScenarioC() {
 	log.Println("Running Scenario C")
 
 	var cart = model.Cart{}
-	cart.ListItems = map[string]model.Item{
+	cart.Items = map[string]model.Item{
 		"A": {
 			ProductInCart: s.products["A"],
 			Quantity:      3,
@@ -101,8 +97,7 @@ func (s *ServiceImpl) RunScenarioC() {
 	}
 
 	total := s.calculateTotal(cart)
-	log.Printf("Scenario C total is %d", total)
-	total = total - s.applyPromotions(cart)
+
 	log.Printf("Scenario C total After promtion is %d", total)
 
 }
@@ -129,11 +124,11 @@ func (s *ServiceImpl) Initialize() error {
 
 func (s *ServiceImpl) calculateTotal(cart model.Cart) int {
 	total := 0
-	for _, v := range cart.ListItems {
+	for _, v := range cart.Items {
 		total += v.Quantity * v.ProductInCart.Price
 	}
 
-	return total
+	return total - s.applyPromotions(cart)
 }
 
 func (s *ServiceImpl) applyPromotions(cart model.Cart) int {
@@ -141,9 +136,9 @@ func (s *ServiceImpl) applyPromotions(cart model.Cart) int {
 	for _, rule := range s.rules {
 		switch rule.RuleFuncName {
 		case "nOfSame":
-			totalDiscount += promotion_rules.NofSame(rule.FuncParams[0].(int), rule.FuncParams[1].(string), rule.FuncParams[2].(int), cart)
+			totalDiscount += s.pri.NofSame(rule.FuncParams[0].(int), rule.FuncParams[1].(string), rule.FuncParams[2].(int), cart)
 		case "combinationOfTwo":
-			totalDiscount += promotion_rules.CombinationOfTwo(rule.FuncParams[0].(string), rule.FuncParams[1].(string), rule.FuncParams[2].(int), cart)
+			totalDiscount += s.pri.CombinationOfTwo(rule.FuncParams[0].(string), rule.FuncParams[1].(string), rule.FuncParams[2].(int), cart)
 		}
 
 	}

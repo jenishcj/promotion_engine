@@ -6,6 +6,7 @@ import (
 )
 
 func TestCombinationOfTwo(t *testing.T) {
+	priInstance := PromotionRulesImpl{}
 
 	productA := model.Product{
 		ProductName: "A",
@@ -37,7 +38,7 @@ func TestCombinationOfTwo(t *testing.T) {
 			productA:       "A",
 			productB:       "B",
 			promotionPrice: 50,
-			cart: model.Cart{ListItems: map[string]model.Item{
+			cart: model.Cart{Items: map[string]model.Item{
 				"A": {
 					ProductInCart: productA,
 					Quantity:      1,
@@ -54,7 +55,7 @@ func TestCombinationOfTwo(t *testing.T) {
 			productA:       "A",
 			productB:       "B",
 			promotionPrice: 50,
-			cart: model.Cart{ListItems: map[string]model.Item{
+			cart: model.Cart{Items: map[string]model.Item{
 				"A": {
 					ProductInCart: productA,
 					Quantity:      1,
@@ -70,7 +71,7 @@ func TestCombinationOfTwo(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := CombinationOfTwo(tt.args.productA, tt.args.productB, tt.args.promotionPrice, tt.args.cart); got != tt.want {
+			if got := priInstance.CombinationOfTwo(tt.args.productA, tt.args.productB, tt.args.promotionPrice, tt.args.cart); got != tt.want {
 				t.Errorf("CombinationOfTwo() = %v, want %v", got, tt.want)
 			}
 		})
@@ -78,6 +79,8 @@ func TestCombinationOfTwo(t *testing.T) {
 }
 
 func TestNofSame(t *testing.T) {
+	priInstance := PromotionRulesImpl{}
+
 	productA := model.Product{
 		ProductName: "A",
 		Price:       15,
@@ -108,7 +111,7 @@ func TestNofSame(t *testing.T) {
 			n:              2,
 			productName:    "A",
 			promotionPrice: 10,
-			cart: model.Cart{ListItems: map[string]model.Item{
+			cart: model.Cart{Items: map[string]model.Item{
 				"A": {
 					ProductInCart: productA,
 					Quantity:      2,
@@ -125,7 +128,7 @@ func TestNofSame(t *testing.T) {
 			n:              2,
 			productName:    "B",
 			promotionPrice: 50,
-			cart: model.Cart{ListItems: map[string]model.Item{
+			cart: model.Cart{Items: map[string]model.Item{
 				"A": {
 					ProductInCart: productA,
 					Quantity:      1,
@@ -141,7 +144,7 @@ func TestNofSame(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NofSame(tt.args.n, tt.args.productName, tt.args.promotionPrice, tt.args.cart); got != tt.want {
+			if got := priInstance.NofSame(tt.args.n, tt.args.productName, tt.args.promotionPrice, tt.args.cart); got != tt.want {
 				t.Errorf("NofSame() = %v, want %v", got, tt.want)
 			}
 		})
