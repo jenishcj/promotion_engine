@@ -12,6 +12,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	} else {
+
+		//Running scenarios
 		s.RunScenarioA()
 		s.RunScenarioB()
 		s.RunScenarioC()

@@ -9,9 +9,6 @@ import (
 
 type Service interface {
 	initialize() error
-	runScenarioA()
-	runScenarioB()
-	runScenarioC()
 }
 
 type ServiceImpl struct {
@@ -106,7 +103,7 @@ func (s *ServiceImpl) Initialize() error {
 
 	log.Println("Promotion Engine Initializing")
 	var err error
-	//parse and store the rules csv
+
 	s.rules, err = promotion_rules.InitializeRules()
 	if err != nil {
 		return err
@@ -116,6 +113,8 @@ func (s *ServiceImpl) Initialize() error {
 	if err != nil {
 		return err
 	}
+
+	s.pri = &promotion_rules.PromotionRulesImpl{}
 
 	log.Println("Promotion Engine Initialized")
 

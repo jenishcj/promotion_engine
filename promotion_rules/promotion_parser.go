@@ -4,6 +4,7 @@ import (
 	"promotionengine/model"
 )
 
+//TODO: Futurely can be driven by a CSV the rules in the form as example csv rules.csv
 func InitializeRules() ([]model.Rule, error) {
 	//nOfSame,3,A,130
 	r1 := model.Rule{
