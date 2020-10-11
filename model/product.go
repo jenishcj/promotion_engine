@@ -1,7 +1,7 @@
 package model
 
 type Cart struct {
-	ListItems []Item
+	ListItems map[string]Item
 	total     float64
 }
 
